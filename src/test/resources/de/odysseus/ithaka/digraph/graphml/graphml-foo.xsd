@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://graphml.graphdrawing.org/xmlns"
+	xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:foo="urn:foo:bar"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+	attributeFormDefault="unqualified">
+
+	<xs:import namespace="urn:foo:bar" schemaLocation="foo.xsd" />
+
+	<xs:redefine schemaLocation="graphml.xsd">
+		<xs:complexType name="data-extension.type">
+			<xs:complexContent mixed="true">
+				<xs:extension base="data-extension.type">
+					<xs:sequence>
+						<xs:element ref="foo:bar" minOccurs="0"/>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:redefine>
+
+</xs:schema>
