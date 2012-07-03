@@ -47,6 +47,7 @@ public class LayoutTree<V, E> {
 		this.digraph = digraph;
 		this.children = new HashMap<V, LayoutTree<V,E>>();
 		this.layout = builder.layout(digraph, new LayoutDimensionProvider<V>() {
+			@Override
 			public LayoutDimension getDimension(V vertex) {
 				LayoutDimension dimension = labelProvider.getDimension(vertex);
 				if (vertex != null && subgraphProvider != null) {

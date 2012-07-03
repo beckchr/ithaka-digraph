@@ -42,6 +42,7 @@ public class GraphMLExporterTest {
 		@Override
 		protected void writeKeyExtraAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		}
+		@Override
 		protected boolean hasDefault() {
 			return false;
 		}

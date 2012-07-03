@@ -38,6 +38,7 @@ public class LabelDimensionProvider<V> implements LayoutDimensionProvider<V> {
 		this.insets = insets;
 	}
 
+	@Override
 	public LayoutDimension getDimension(V vertex) {
 		return vertex == null ? new LayoutDimension(0, 0) : new LayoutDimension(
 				metrics.stringWidth(labels.getLabel(vertex)) + insets.left + insets.right,

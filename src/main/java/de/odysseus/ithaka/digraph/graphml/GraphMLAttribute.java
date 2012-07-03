@@ -50,6 +50,7 @@ public abstract class GraphMLAttribute<T> extends AbstractGraphMLProperty<T> {
 	 * @param writer
 	 * @throws XMLStreamException
 	 */
+	@Override
 	public void writeKeyExtraAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		writer.writeAttribute("attr.name", name);
 		writer.writeAttribute("attr.type", type.toString());
@@ -65,10 +66,12 @@ public abstract class GraphMLAttribute<T> extends AbstractGraphMLProperty<T> {
 		writer.writeCharacters(defaultData);
 	}
 
+	@Override
 	public boolean hasData(T value) {
 		return getData(value) != null;
 	}
 	
+	@Override
 	public void writeDataContent(XMLStreamWriter writer, T value) throws XMLStreamException {
 		writer.writeCharacters(getData(value));
 	}
