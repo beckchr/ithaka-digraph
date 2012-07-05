@@ -1,6 +1,6 @@
 # Ithaka Digraph
 
-[_Ithaka Digraph_](http://beckchr.github.com/ithaka-digraph/) provides a framework for directed graphs.
+[_Ithaka Digraph_](https://github.com/beckchr/ithaka-digraph/) provides a framework for directed graphs.
 
 ## Features
 
@@ -16,7 +16,7 @@
 
 Here's a brief introduction the core interfaces and classes.
 
-![](Core-API.png)
+![](https://raw.github.com/beckchr/ithaka-digraph/master/Core-API.png)
 
 As a side note, the above image has been rendered from a layout computed by _Ithaka Digraph_.
 
