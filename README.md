@@ -70,7 +70,7 @@ In addition, there are some methods producing new graphs:
 ### MapDigraph Class
 
 The `MapDigraph<V,E>` class implements the `Digraph<V,E>` interface, using nested maps to store vertices
-and edges (i.e. `Map<V, Map<V, E>>`).
+and edges (i.e. `Map<Map<V,E>>`).
 
 	Digraph<V,E> digraph = new MapDigraph<V,E>();
 
@@ -167,7 +167,7 @@ as well as dependency
 		<version>0.9</version>
 	</dependency>
 
-or manually grab JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/0.9). 
+or manually grab latest JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/0.9). 
 
 ## License
 
