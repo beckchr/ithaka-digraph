@@ -188,7 +188,7 @@ public class Digraphs {
 	 * @param discovered set of vertices already discovered during search
 	 * @param finished collection of vertices visited during search
 	 */
-	public static <V> void dfs(Digraph<? extends V,?> digraph, V source, Set<? super V> discovered, Collection<? super V> finished) {
+	public static <V> void dfs(Digraph<V,?> digraph, V source, Set<? super V> discovered, Collection<? super V> finished) {
 		if (discovered.add(source)) {
 			for (V target : digraph.targets(source)) {
 				dfs(digraph, target, discovered, finished);
@@ -228,9 +228,9 @@ public class Digraphs {
 	 * @param digraph
 	 * @return strongly connected components
 	 */
-	public static <V> List<Set<V>> scc(Digraph<? extends V,?> digraph) {
+	public static <V> List<Set<V>> scc(Digraph<V,?> digraph) {
 		List<Set<V>> components = new ArrayList<Set<V>>();
-		Digraph<? extends V,?> reverse = digraph.reverse();
+		Digraph<V,?> reverse = digraph.reverse();
 
 		// dfs on this graph
 		Stack<V> stack = new Stack<V>();
@@ -323,8 +323,8 @@ public class Digraphs {
 	 * @return subgraph of the supplied digraph containing the specified vertices.
 	 */
 	public static <V,E,G extends Digraph<V,E>> G subgraph(
-			Digraph<? extends V,? extends E> digraph,
-			Set<? extends V> vertices,
+			Digraph<V,E> digraph,
+			Set<V> vertices,
 			DigraphFactory<? extends G> factory) {
 		G subgraph = factory.create();
 		for (V v : vertices) {

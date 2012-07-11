@@ -70,7 +70,7 @@ In addition, there are some methods producing new graphs:
 ### MapDigraph Class
 
 The `MapDigraph<V,E>` class implements the `Digraph<V,E>` interface, using nested maps to store vertices
-and edges (i.e. `Map<Map<V,E>>`).
+and edges (i.e. `Map<V,Map<V,E>>`).
 
 	Digraph<V,E> digraph = new MapDigraph<V,E>();
 
@@ -121,6 +121,7 @@ The `Digraphs` class provides static utility methods ala `Collections`. To name 
 	<V> boolean isReachable(Digraph<V,?> digraph, V source, V target); // test for existing path
 	<V> List<Set<V>> scc(Digraph<V,?> digraph); // compute strongly conntected components
 	<V> List<Set<V>> wcc(Digraph<V,?> digraph); // compute weakly connected components
+	<V> void dfs(Digraph<V,?> digraph, V source, Set<? super V> discovered, Collection<? super V> finished);
 	...
 
 ### Layout Sample
