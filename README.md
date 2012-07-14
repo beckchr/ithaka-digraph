@@ -10,7 +10,7 @@
 - Map-based digraph implementation
 - Basic algorithms (transitive closure, topological search, strongly/weakly connected components...)
 - Hierarchical layout (Sugiyama) implementation
-- GraphML and Graphvis Dot language export functionality
+- GraphML and Dot language (Graphvis) export functionality
 
 ## Survey
 
