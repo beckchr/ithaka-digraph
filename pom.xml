@@ -29,6 +29,14 @@
 		<url>https://github.com/beckchr/ithaka-digraph</url>
 	</scm>
 
+	<repositories>
+	    <repository>
+	        <id>ithaka</id>
+			<name>Ithaka Maven Repository</name>
+			<url>http://beckchr.github.com/ithaka-maven/mvnrepo/</url>
+	    </repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
