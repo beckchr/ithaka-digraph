@@ -35,7 +35,7 @@ public class AbstractFeedbackArcSetProviderTest {
 		graph.put(1, 2, 3);
 		graph.put(2, 1, 1);
 
-		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider() {
+		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider(false) {
 			@Override
 			protected <V, E> Digraph<V, E> lfas(Digraph<V, E> digraph, EdgeWeights<? super V> weights) {
 				Assert.assertTrue(digraph == graph);
@@ -56,7 +56,7 @@ public class AbstractFeedbackArcSetProviderTest {
 		graph.put(1, 2, 3);
 		graph.put(2, 1, 1);
 
-		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider() {
+		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider(false) {
 			@Override
 			protected <V, E> Digraph<V, E> lfas(Digraph<V, E> digraph, EdgeWeights<? super V> weights) {
 				Assert.assertTrue(digraph == graph);
@@ -139,7 +139,7 @@ public class AbstractFeedbackArcSetProviderTest {
 		graph.put(1, 2, 3);
 		graph.put(2, 3, 1);
 
-		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider() {
+		AbstractFeedbackArcSetProvider provider = new AbstractFeedbackArcSetProvider(0) {
 			@Override
 			public <V, E> FeedbackArcSet<V, E> mfas(Digraph<V, E> digraph, EdgeWeights<? super V> weights) {
 				Assert.fail();

@@ -56,12 +56,19 @@ public abstract class AbstractFeedbackArcSetProvider implements FeedbackArcSetPr
 	private final int numberOfThreads;
 
 	/**
-	 * Create provider which calculates a feedback arc set on a digraph (without
-	 * decomposing it into strongly connected components).
+	 * Create provider which calculates a feedback arc set on a digraph (in the
+	 * current thread).
+	 * If the <code>decompose</code> flag set to <code>true</code>, the provider
+	 * decomposes a digraph into strongly connected components and computes
+	 * feedback arc sets on the components and combines the results.
+	 * If the <code>decompose</code> flag set to <code>false</code>, the
+	 * {@link #getFeedbackArcSet(Digraph, EdgeWeights, FeedbackArcSetPolicy)}
+	 * method <em>must</em> be called with strongly connected graphs only!
+	 * @param decompose whether to decompose into strongly connected components.
 	 */
-	protected AbstractFeedbackArcSetProvider() {
-		this.decompose = false;
-		this.numberOfThreads = 1;
+	protected AbstractFeedbackArcSetProvider(boolean decompose) {
+		this.decompose = decompose;
+		this.numberOfThreads = 0;
 	}
 
 	/**
