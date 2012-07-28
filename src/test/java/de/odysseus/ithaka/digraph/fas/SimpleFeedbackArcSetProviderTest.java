@@ -73,7 +73,9 @@ public class SimpleFeedbackArcSetProviderTest {
 						formatter.format(" %2d", values[source][target]);
 					}
 				}
-				return formatter.toString();
+				String result = formatter.toString();
+				formatter.close();
+				return result;
 			}
 		};
 		Weights weights = new Weights();
