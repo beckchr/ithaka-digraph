@@ -165,10 +165,10 @@ as well as dependency
 	<dependency>
 		<groupId>de.odysseus.ithaka</groupId>
 		<artifactId>ithaka-digraph</artifactId>
-		<version>0.9</version>
+		<version>0.9.5</version>
 	</dependency>
 
-or manually grab latest JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/0.9). 
+or manually grab latest JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/0.9.5). 
 
 ## License
 
