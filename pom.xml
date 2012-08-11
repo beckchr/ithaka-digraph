@@ -3,7 +3,7 @@
 
 	<groupId>de.odysseus.ithaka</groupId>
 	<artifactId>ithaka-digraph</artifactId>
-	<version>0.10-SNAPSHOT</version>
+	<version>0.9.5</version>
 	<packaging>jar</packaging>
 
 	<parent>
