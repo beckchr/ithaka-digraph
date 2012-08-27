@@ -96,6 +96,6 @@ public class YFilesGraphMLTest {
 		writer = new PrettyXMLStreamWriter(writer);
 		graphML.export(writer);
 
-		System.out.println(result);
+//		System.out.println(result);
 	}
 }

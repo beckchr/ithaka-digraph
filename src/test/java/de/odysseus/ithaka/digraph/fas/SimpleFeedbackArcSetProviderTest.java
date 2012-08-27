@@ -23,7 +23,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Formatter;
 import java.util.Random;
 
-import org.junit.Ignore;
+import junit.framework.Assert;
+
 import org.junit.Test;
 
 import de.odysseus.ithaka.digraph.Digraph;
@@ -143,10 +144,10 @@ public class SimpleFeedbackArcSetProviderTest {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void testThreads() {
 		SimpleDigraphAdapter<Integer> graph = new SimpleDigraphAdapter<Integer>();
-		int tangleSize = 40;
+		int tangleSize = 10;
 		int tangleCount = 4;
 		for (int nodeOffset = 0; nodeOffset < tangleCount * tangleSize; nodeOffset += tangleSize) {
 			for (int source = 0; source < tangleSize; source++) {				
@@ -157,30 +158,30 @@ public class SimpleFeedbackArcSetProviderTest {
 				}
 			}
 		}
+		Assert.assertEquals(tangleSize * (tangleSize - 1) * tangleCount, graph.getEdgeCount());
+		Assert.assertEquals(tangleSize * tangleCount, graph.getVertexCount());
 		EdgeWeights<Object> weights = EdgeWeights.UNIT_WEIGHTS;
 		for (int threads = tangleCount; threads >= 0; threads--) {
 			SimpleFeedbackArcSetProvider simpleProvider = new SimpleFeedbackArcSetProvider(threads);
-			long time = System.currentTimeMillis();
-			simpleProvider.getFeedbackArcSet(graph, weights, FeedbackArcSetPolicy.MIN_WEIGHT);
-			time = System.currentTimeMillis() - time;
-			System.out.println("feedback arc set calculation time, " + threads + " threads: " + time);
+			Digraph<Integer,?> fas = simpleProvider.getFeedbackArcSet(graph, weights, FeedbackArcSetPolicy.MIN_WEIGHT);
+			Assert.assertEquals(graph.getVertexCount(), fas.getVertexCount());
+			Assert.assertEquals(graph.getEdgeCount() / 2, fas.getEdgeCount());
+			assertTrue(isFeedbackSet(graph, fas));
 		}
 	}
 
 	@Test
 	public void testRandomDigraphs() {
 		Random rng = new Random(7);
-		long time = 0;
 
 		for (int nodeCount = 6; nodeCount <= 10; nodeCount++) {
 			for (int edgeCount = 22; edgeCount <= 25; edgeCount++) {
-				time += calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 99);
-				time += calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 10);
-				time += calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 1);
-				time += calculateFeedbackArcSets(rng, nodeCount, edgeCount, 90, 99);
+				calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 99);
+				calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 10);
+				calculateFeedbackArcSets(rng, nodeCount, edgeCount, 1, 1);
+				calculateFeedbackArcSets(rng, nodeCount, edgeCount, 90, 99);
 			}
 		}
-		System.out.println("feedback arc set calculation time: " + time);
 	}
 
 	@Test

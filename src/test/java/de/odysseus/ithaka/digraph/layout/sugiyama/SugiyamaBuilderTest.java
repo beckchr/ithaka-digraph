@@ -15,6 +15,7 @@
  */
 package de.odysseus.ithaka.digraph.layout.sugiyama;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -42,11 +43,20 @@ public class SugiyamaBuilderTest extends TestCase {
 		dag.add(1, 3);
 		dag.add(2, 3);
 
-		SugiyamaBuilder<Integer,Boolean> layouter = new SugiyamaBuilder<Integer, Boolean>(1, 1);
+		SugiyamaBuilder<Integer,Boolean> builder = new SugiyamaBuilder<Integer, Boolean>(1, 1);
 		Digraph<? extends LayoutNode<Integer>,? extends LayoutArc<Integer,Boolean>> sugiyama =
-				layouter.layout(dag, dim).getLayoutGraph();
-		for (LayoutNode<Integer> node : sugiyama.vertices()) {
-			System.out.println(node.getVertex() + " --> " + node.getPoint());
+				builder.layout(dag, dim).getLayoutGraph();
+		Assert.assertEquals(dag.getVertexCount(), sugiyama.getVertexCount());
+		Assert.assertEquals(dag.getEdgeCount(), sugiyama.getEdgeCount());
+		for (LayoutNode<Integer> source : sugiyama.vertices()) {
+			Assert.assertTrue(dag.contains(source.getVertex()));
+			for (LayoutNode<Integer> target : sugiyama.targets(source)) {
+				Assert.assertTrue(dag.contains(source.getVertex(), target.getVertex()));
+				LayoutArc<Integer, Boolean> arc = sugiyama.get(source, target);
+				Assert.assertEquals(dag.get(source.getVertex(), target.getVertex()), arc.getEdge());
+				Assert.assertEquals(source, arc.getSource());
+				Assert.assertEquals(target, arc.getTarget());
+			}
 		}
 	}
 }
