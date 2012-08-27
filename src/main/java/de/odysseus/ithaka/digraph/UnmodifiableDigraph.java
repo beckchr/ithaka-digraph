@@ -15,28 +15,57 @@
  */
 package de.odysseus.ithaka.digraph;
 
+import java.util.Collection;
+
+/**
+ * Unmodifiable digraph adapter.
+ * Overrides <code>add</code>, <code>put</code>, <code>remove</code>, <code>removeAll</code> to throw an exception.
+ *
+ * @param <V> vertex type
+ * @param <E> edge type
+ */
 public class UnmodifiableDigraph<V, E> extends DigraphAdapter<V, E> {
 	public UnmodifiableDigraph(Digraph<V, E> digraph) {
 		super(digraph);
 	}
 	
+	/**
+	 * @throws UnsupportedOperationException
+	 */
 	@Override
 	public final boolean add(V vertex) {
-		throw new UnsupportedOperationException("This Digraph is readonly!");
+		throw new UnsupportedOperationException("This digraph is readonly!");
 	}
 
+	/**
+	 * @throws UnsupportedOperationException
+	 */
 	@Override
 	public final E put(V source, V target, E edge) {
-		throw new UnsupportedOperationException("This Digraph is readonly!");
+		throw new UnsupportedOperationException("This digraph is readonly!");
 	}
 	
+	/**
+	 * @throws UnsupportedOperationException
+	 */
 	@Override
 	public final boolean remove(V vertex) {
-		throw new UnsupportedOperationException("This Digraph is readonly!");
+		throw new UnsupportedOperationException("This digraph is readonly!");
 	}
 	
+	/**
+	 * @throws UnsupportedOperationException
+	 */
 	@Override
 	public final E remove(V source, V target) {
-		throw new UnsupportedOperationException("This Digraph is readonly!");
+		throw new UnsupportedOperationException("This digraph is readonly!");
+	}
+	
+	/**
+	 * @throws UnsupportedOperationException
+	 */
+	@Override
+	public final void removeAll(Collection<V> vertices) {
+		throw new UnsupportedOperationException("This digraph is readonly!");
 	}
 }

@@ -22,10 +22,9 @@ import java.util.Set;
 /**
  * Empty digraph.
  * Adding a vertex or edge will throw a <code>UnsupportedOperationException</code>.
- * @author beck
  *
- * @param <V> the vertex type
- * @param <E> the edge type
+ * @param <V> vertex type
+ * @param <E> edge type
  */
 class EmptyDigraph<V,E> implements DoubledDigraph<V,E> {
 	@Override

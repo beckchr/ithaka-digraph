@@ -26,8 +26,8 @@ import java.util.Set;
  * Vertex as well as edge <code>null</code> is forbidden.
  * @author beck
  *
- * @param <V> the vertex type
- * @param <E> the edge type
+ * @param <V> vertex type
+ * @param <E> edge type
  */
 public class TrivialDigraph<V,E> implements DoubledDigraph<V,E> {
 	/**

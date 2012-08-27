@@ -35,10 +35,16 @@ import de.odysseus.ithaka.digraph.MapDigraph;
  * Simple feedback arc set provider.
  */
 public class SimpleFeedbackArcSetProvider extends AbstractFeedbackArcSetProvider {
+	/**
+	 * Calculate feedback arc in the current thread.
+	 */
 	public SimpleFeedbackArcSetProvider() {
-		this(1);
+		super(true);
 	}
 	
+	/**
+	 * Calculate feedback arc set using the specified number of threads.
+	 */
 	public SimpleFeedbackArcSetProvider(int numberOfThreads) {
 		super(numberOfThreads);
 	}

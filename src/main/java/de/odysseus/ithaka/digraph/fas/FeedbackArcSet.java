@@ -18,6 +18,12 @@ package de.odysseus.ithaka.digraph.fas;
 import de.odysseus.ithaka.digraph.Digraph;
 import de.odysseus.ithaka.digraph.UnmodifiableDigraph;
 
+/**
+ * Feedback arc set.
+ *
+ * @param <V> vertex type
+ * @param <E> edge type
+ */
 public class FeedbackArcSet<V, E> extends UnmodifiableDigraph<V, E> {
 	private final FeedbackArcSetPolicy policy;
 	private final boolean exact;
@@ -30,14 +36,23 @@ public class FeedbackArcSet<V, E> extends UnmodifiableDigraph<V, E> {
 		this.exact = exact;
 	}
 
+	/**
+	 * @return <code>true</code> if this FAS is known to be of minimal
+	 */
 	public boolean isExact() {
 		return exact;
 	}
 	
+	/**
+	 * @return total weight
+	 */
 	public int getWeight() {
 		return weight;
 	}
 	
+	/**
+	 * @return minimization policy (weight/#arcs)
+	 */
 	public FeedbackArcSetPolicy getPolicy() {
 		return policy;
 	}

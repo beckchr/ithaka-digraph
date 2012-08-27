@@ -18,6 +18,9 @@ package de.odysseus.ithaka.digraph.fas;
 import de.odysseus.ithaka.digraph.Digraph;
 import de.odysseus.ithaka.digraph.EdgeWeights;
 
+/**
+ * Feedback arc set provider interface.
+ */
 public interface FeedbackArcSetProvider {
 	/**
 	 * Calculate feedback arc set.

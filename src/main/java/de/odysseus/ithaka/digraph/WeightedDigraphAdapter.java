@@ -19,15 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implements WeightedDigraph<V> {
-	private static final Integer ZERO = Integer.valueOf(0);
-
-	private static final EdgeCumulator<Object,Integer,Integer> ADD_CUMULATOR = new EdgeCumulator<Object,Integer,Integer>() {
-		@Override
-		public Integer add(Object s, Object t, Integer c, Integer e) {
-			return c == null ? e : Integer.valueOf(c.intValue() + e.intValue());
-		}
-	};
-
 	public static <V> DigraphFactory<WeightedDigraphAdapter<V>> getAdapterFactory(final DigraphFactory<? extends Digraph<V,Integer>> factory) {
 		return new DigraphFactory<WeightedDigraphAdapter<V>>() {
 			@Override
@@ -37,6 +28,13 @@ public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implem
 		};
 	}
 	
+	private static final EdgeCumulator<Object,Integer,Integer> ADD_CUMULATOR = new EdgeCumulator<Object,Integer,Integer>() {
+		@Override
+		public Integer add(Object source, Object target, Integer edge, Integer operand) {
+			return edge == null ? operand : Integer.valueOf(edge.intValue() + operand.intValue());
+		}
+	};
+
 	private final DigraphFactory<? extends Digraph<V,Integer>> factory;
 	
 	public WeightedDigraphAdapter() {
@@ -55,7 +53,7 @@ public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implem
 	@Override
 	public Integer get(Object source, Object target) {
 		Integer weight = super.get(source, target);
-		return weight == null ? ZERO : weight;
+		return weight == null ? Integer.valueOf(0) : weight;
 	}
 
 	@Override

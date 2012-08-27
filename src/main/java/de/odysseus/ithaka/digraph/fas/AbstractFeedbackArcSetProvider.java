@@ -62,8 +62,10 @@ public abstract class AbstractFeedbackArcSetProvider implements FeedbackArcSetPr
 	 * decomposes a digraph into strongly connected components and computes
 	 * feedback arc sets on the components and combines the results.
 	 * If the <code>decompose</code> flag set to <code>false</code>, the
+	 * {@link #mfas(Digraph, EdgeWeights)} and {@link #lfas(Digraph, EdgeWeights)}
+	 * implementation methods must be able to handle arbitrary digraphs or the
 	 * {@link #getFeedbackArcSet(Digraph, EdgeWeights, FeedbackArcSetPolicy)}
-	 * method <em>must</em> be called with strongly connected graphs only!
+	 * method <em>must</em> be called with strongly connected components only!
 	 * @param decompose whether to decompose into strongly connected components.
 	 */
 	protected AbstractFeedbackArcSetProvider(boolean decompose) {

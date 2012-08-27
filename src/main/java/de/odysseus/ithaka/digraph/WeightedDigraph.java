@@ -17,8 +17,12 @@ package de.odysseus.ithaka.digraph;
 
 import java.util.Set;
 
+/**
+ * Weighted digraph interface.
+ *
+ * @param <V> edge type.
+ */
 public interface WeightedDigraph<V> extends Digraph<V, Integer>, EdgeWeights<V> {
-
 	/**
 	 * Adds the given weight to the edge specified by its source and target vertices.
 	 * Automatically inserts the edge if necessary.

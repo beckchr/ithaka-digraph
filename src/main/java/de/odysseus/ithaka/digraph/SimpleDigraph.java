@@ -17,8 +17,12 @@ package de.odysseus.ithaka.digraph;
 
 import java.util.Set;
 
+/**
+ * Simple digraph (without edge values) interface.
+ *
+ * @param <V> vertex type
+ */
 public interface SimpleDigraph<V> extends Digraph<V, Boolean> {
-
 	/**
 	 * Add an edge.
 	 * @return <code>true</code> if the edge has been inserted, <code>false</code> if it already existed.
@@ -34,7 +38,7 @@ public interface SimpleDigraph<V> extends Digraph<V, Boolean> {
 
 	/**
 	 * Put an edge.
-	 * If invoked, <code>true</code> must be passed as edge.
+	 * If invoked, <code>true</code> must be passed as edge value.
 	 * Better use {@link #add(Object, Object)}}
 	 * @throws IllegalArgumentException if supplied edge is not equal to <code>Boolean.TRUE</code>
 	 */

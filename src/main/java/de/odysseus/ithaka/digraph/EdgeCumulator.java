@@ -15,14 +15,21 @@
  */
 package de.odysseus.ithaka.digraph;
 
-public interface EdgeCumulator<T,C,E> {
+/**
+ * Edge cumulator interface.
+ * 
+ * @param <V> vertex type
+ * @param <E> edge type
+ * @param <T> operand type
+ */
+public interface EdgeCumulator<V,E,T> {
 	/**
-	 * Add <code>e</code> to arc <code>s --c--&gt; t</code>.
-	 * @param s source subgraph
-	 * @param t target subgraph
-	 * @param c cumulated edge
-	 * @param e operand
-	 * @return <code>c + e</code>
+	 * Add <code>operand</code> to edge <code>source --edge--&gt; target</code>.
+	 * @param source source vertex
+	 * @param target target target
+	 * @param edge edge value
+	 * @param operand edge operand
+	 * @return <code>edge + operand</code>
 	 */
-	public C add(T s, T t, C c, E e);
+	public E add(V source, V target, E edge, T operand);
 }

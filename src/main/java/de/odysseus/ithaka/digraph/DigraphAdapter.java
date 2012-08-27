@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Digraph adapter.
+ * Abstract Digraph adapter.
  * A digraph adapter delegates to a digraph supplied at construction time.
  *
  * @param <V> vertex type

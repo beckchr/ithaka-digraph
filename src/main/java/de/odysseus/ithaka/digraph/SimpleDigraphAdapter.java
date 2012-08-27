@@ -18,14 +18,18 @@ package de.odysseus.ithaka.digraph;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Doubled digraph implementation.
+ * 
+ * @param <V> vertex type
+ * @param <E> edge type
+ */
 public class SimpleDigraphAdapter<V> extends DigraphAdapter<V, Boolean> implements SimpleDigraph<V> {
-	private static final EdgeCumulator<Object,Integer,Boolean> COUNT_CUMULATOR = new EdgeCumulator<Object,Integer,Boolean>() {
-		@Override
-		public Integer add(Object s, Object t, Integer c, Boolean e) {
-			return Integer.valueOf(c == null ? 1 : c.intValue() + 1);
-		}
-	};
-
+	/**
+	 * Factory creating <code>SimpleDigraph</code>.
+	 * @param factory delegate factory
+	 * @return simple digraph factory
+	 */
 	public static <V> DigraphFactory<SimpleDigraphAdapter<V>> getAdapterFactory(final DigraphFactory<? extends Digraph<V,Boolean>> factory) {
 		return new DigraphFactory<SimpleDigraphAdapter<V>>() {
 			@Override
@@ -35,6 +39,13 @@ public class SimpleDigraphAdapter<V> extends DigraphAdapter<V, Boolean> implemen
 		};
 	}
 	
+	private static final EdgeCumulator<Object,Integer,Boolean> COUNT_CUMULATOR = new EdgeCumulator<Object,Integer,Boolean>() {
+		@Override
+		public Integer add(Object source, Object target, Integer edge, Boolean operand) {
+			return Integer.valueOf(edge == null ? 1 : edge.intValue() + 1);
+		}
+	};
+
 	private final DigraphFactory<? extends Digraph<V,Boolean>> factory;
 
 	public SimpleDigraphAdapter() {

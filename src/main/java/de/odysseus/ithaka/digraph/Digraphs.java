@@ -27,8 +27,6 @@ import java.util.Stack;
 
 /**
  * This class provides some common digraph utilities.
- *
- * @author Christoph Beck
  */
 public class Digraphs {
 	/**

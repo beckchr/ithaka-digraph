@@ -20,11 +20,17 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
- * Digraph holding its reverse graph.
- * Thus, invoking <code>reverse()</code> takes O(1) time.
+ * Doubled digraph implementation.
+ * 
+ * @param <V> vertex type
+ * @param <E> edge type
  */
 public class DoubledDigraphAdapter<V,E> extends DigraphAdapter<V,E> implements DoubledDigraph<V,E> {
-
+	/**
+	 * Factory creating <code>DoubledDigraph</code>.
+	 * @param factory delegate factory
+	 * @return doubled digraph factory
+	 */
 	public static <V,E> DigraphFactory<DoubledDigraphAdapter<V,E>> getAdapterFactory(final DigraphFactory<? extends Digraph<V,E>> factory) {
 		return new DigraphFactory<DoubledDigraphAdapter<V,E>>() {
 			@Override

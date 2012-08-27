@@ -15,11 +15,32 @@
  */
 package de.odysseus.ithaka.digraph;
 
+/**
+ * Edge weights interface.
+ * 
+ * @param <V> vertex type
+ */
 public interface EdgeWeights<V> {
+	/**
+	 * Unit edge weights.
+	 */
 	public static final EdgeWeights<Object> UNIT_WEIGHTS = new EdgeWeights<Object>() {
+		/**
+		 * @param source
+		 * @param target
+		 * @return 1
+		 */
 		@Override
-		public Integer get(Object source, Object target) { return Integer.valueOf(1); }
+		public Integer get(Object source, Object target) {
+			return Integer.valueOf(1);
+		}
 	};
 	
+	/**
+	 * Get edge weight
+	 * @param source source vertex
+	 * @param target target vertex
+	 * @return weight for edge starting at <code>source</code> and ending at <code>target</code>
+	 */
 	public Integer get(V source, V target);
 }

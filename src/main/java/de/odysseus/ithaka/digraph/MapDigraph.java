@@ -25,17 +25,47 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Directed graph implementation. Nodes are added automatically if they appear
- * in an edge.
- * 
- * @author Christoph Beck
- * @author Oliver Stuhr
+ * Map-based directed graph implementation.
+ *
+ * @param <V> vertex type
+ * @param <E> edge type
  */
 public class MapDigraph<V, E> implements Digraph<V, E> {
+	/**
+	 * Factory creating default <code>MapDigraph</code>.
+	 * @return map digraph factory
+	 */
+	public static <V, E> DigraphFactory<MapDigraph<V, E>> getDefaultDigraphFactory() {
+		return getMapDigraphFactory(MapDigraph.<V,E>getDefaultVertexMapFactory(null), MapDigraph.<V,E>getDefaultEdgeMapFactory(null));
+	}
+
+	/**
+	 * Factory creating <code>MapDigraph</code>.
+	 * @param vertexMapFactory factory to create vertex --> edge-map maps
+	 * @param edgeMapFactory factory to create edge-target --> edge-value maps
+	 * @return map digraph factory
+	 */
+	public static <V, E> DigraphFactory<MapDigraph<V, E>> getMapDigraphFactory(
+			final VertexMapFactory<V, E> vertexMapFactory,
+			final EdgeMapFactory<V, E> edgeMapFactory) {
+		return new DigraphFactory<MapDigraph<V, E>>() {
+			@Override
+			public MapDigraph<V, E> create() {
+				return new MapDigraph<V, E>(vertexMapFactory, edgeMapFactory);
+			}
+		};
+	}
+
+	/**
+	 * Vertex map factory (vertex to edge map).
+	 */
 	public static interface VertexMapFactory<V, E> {
 		public Map<V, Map<V, E>> create();
 	}
 
+	/**
+	 * Edge map factory (edge target to edge value).
+	 */
 	public static interface EdgeMapFactory<V, E> {
 		public Map<V, E> create(V source);
 	}
@@ -66,33 +96,49 @@ public class MapDigraph<V, E> implements Digraph<V, E> {
 		};
 	};
 
-	public static <V, E> DigraphFactory<MapDigraph<V, E>> getDefaultDigraphFactory() {
-		return new DigraphFactory<MapDigraph<V, E>>() {
-			@Override
-			public MapDigraph<V, E> create() {
-				return new MapDigraph<V, E>();
-			}
-		};
-	}
-
 	private final VertexMapFactory<V, E> vertexMapFactory;
 	private final EdgeMapFactory<V, E> edgeMapFactory;
 	private final Map<V, Map<V, E>> vertexMap;
 
 	private int edgeCount;
 
+	/**
+	 * Create digraph.
+	 * {@link HashMap}s will be used as vertex/edge maps.
+	 * Vertices and edge targets will be iterated in no particular order. 
+	 */
 	public MapDigraph() {
 		this(null);
 	}
 
+	/**
+	 * Create digraph.
+	 * If a vertex comparator is given, {@link TreeMap}s will be used as vertex/edge maps.
+	 * Vertices and edge targets will be iterated in the order given by the comparator. 
+	 * @param comparator vertex comparator (may be <code>null</code>)
+	 */
 	public MapDigraph(final Comparator<? super V> comparator) {
 		this(comparator, comparator);
 	}
 
+	/**
+	 * Create digraph.
+	 * If a vertex comparator is given, {@link TreeMap}s will be used as vertex maps
+	 * and vertices will be iterated in the order given by the vertex comparator. 
+	 * If an edge comparator is given, {@link TreeMap}s will be used as edge maps
+	 * and edge targets will be iterated in the order given by the edge comparator. 
+	 * @param vertexComparator
+	 * @param edgeComparator
+	 */
 	public MapDigraph(final Comparator<? super V> vertexComparator, final Comparator<? super V> edgeComparator) {
 		this(MapDigraph.<V, E> getDefaultVertexMapFactory(vertexComparator), MapDigraph.<V, E> getDefaultEdgeMapFactory(edgeComparator));
 	}
 
+	/**
+	 * Create digraph.
+	 * @param vertexMapFactory factory to create vertex --> edge-map maps
+	 * @param edgeMapFactory factory to create edge-target --> edge-value maps
+	 */
 	public MapDigraph(VertexMapFactory<V, E> vertexMapFactory, EdgeMapFactory<V, E> edgeMapFactory) {
 		this.vertexMapFactory = vertexMapFactory;
 		this.edgeMapFactory = edgeMapFactory;
