@@ -63,7 +63,7 @@ public class DoubledDigraphAdapter<V,E> extends DigraphAdapter<V,E> implements D
 		return new DoubledDigraphAdapter<V, E>(factory, this);
 	}
 
-	public DigraphFactory<? extends DoubledDigraph<V, E>> getDigraphFactory() {
+	protected DigraphFactory<? extends DoubledDigraph<V, E>> getDigraphFactory() {
 		return getAdapterFactory(factory);
 	}
 	

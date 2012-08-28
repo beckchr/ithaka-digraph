@@ -61,7 +61,7 @@ public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implem
 		put(source, target, get(source, target) + weight);
 	}
 
-	public DigraphFactory<? extends WeightedDigraph<V>> getDigraphFactory() {
+	protected DigraphFactory<? extends WeightedDigraph<V>> getDigraphFactory() {
 		return getAdapterFactory(factory);
 	}
 	

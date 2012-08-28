@@ -61,7 +61,7 @@ public class SimpleDigraphAdapter<V> extends DigraphAdapter<V, Boolean> implemen
 		this.factory = factory;
 	}
 	
-	public DigraphFactory<? extends SimpleDigraph<V>> getDigraphFactory() {
+	protected DigraphFactory<? extends SimpleDigraph<V>> getDigraphFactory() {
 		return getAdapterFactory(factory);
 	}
 	
