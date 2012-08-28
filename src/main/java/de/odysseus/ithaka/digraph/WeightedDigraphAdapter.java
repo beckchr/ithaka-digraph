@@ -49,12 +49,6 @@ public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implem
 		super(delegate);
 		this.factory = factory;
 	}
-	
-	@Override
-	public Integer get(Object source, Object target) {
-		Integer weight = super.get(source, target);
-		return weight == null ? Integer.valueOf(0) : weight;
-	}
 
 	@Override
 	public void add(V source, V target, int weight) {
