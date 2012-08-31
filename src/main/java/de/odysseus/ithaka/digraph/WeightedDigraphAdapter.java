@@ -52,7 +52,8 @@ public class WeightedDigraphAdapter<V> extends DigraphAdapter<V, Integer> implem
 
 	@Override
 	public void add(V source, V target, int weight) {
-		put(source, target, get(source, target) + weight);
+		Integer current = get(source, target);
+		put(source, target, current == null ? weight : current.intValue() + weight);
 	}
 
 	protected DigraphFactory<? extends WeightedDigraph<V>> getDigraphFactory() {
