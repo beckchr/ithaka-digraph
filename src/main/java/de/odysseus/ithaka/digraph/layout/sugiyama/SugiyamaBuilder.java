@@ -26,16 +26,16 @@ import de.odysseus.ithaka.digraph.Digraph;
 import de.odysseus.ithaka.digraph.Digraphs;
 import de.odysseus.ithaka.digraph.DoubledDigraph;
 import de.odysseus.ithaka.digraph.EdgeWeights;
-import de.odysseus.ithaka.digraph.fas.FeedbackArcSet;
-import de.odysseus.ithaka.digraph.fas.FeedbackArcSetPolicy;
-import de.odysseus.ithaka.digraph.fas.SimpleFeedbackArcSetProvider;
-import de.odysseus.ithaka.digraph.layout.Layout;
-import de.odysseus.ithaka.digraph.layout.LayoutArc;
-import de.odysseus.ithaka.digraph.layout.LayoutBuilder;
-import de.odysseus.ithaka.digraph.layout.LayoutDimension;
-import de.odysseus.ithaka.digraph.layout.LayoutDimensionProvider;
-import de.odysseus.ithaka.digraph.layout.LayoutNode;
-import de.odysseus.ithaka.digraph.layout.LayoutPoint;
+import de.odysseus.ithaka.digraph.layout.DigraphLayout;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutArc;
+import de.odysseus.ithaka.digraph.layout.DigrpahLayoutBuilder;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimension;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimensionProvider;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutNode;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutPoint;
+import de.odysseus.ithaka.digraph.util.fas.FeedbackArcSet;
+import de.odysseus.ithaka.digraph.util.fas.FeedbackArcSetPolicy;
+import de.odysseus.ithaka.digraph.util.fas.SimpleFeedbackArcSetProvider;
 
 /**
  * Sugiyama's algorithm. Work in progress...
@@ -45,7 +45,7 @@ import de.odysseus.ithaka.digraph.layout.LayoutPoint;
  * @param <V> Vertex type
  * @param <E> Edge type
  */
-public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
+public class SugiyamaBuilder<V, E> implements DigrpahLayoutBuilder<V, E> {
 	protected final int horizontalSpacing;
 	protected final int verticalSpacing;
 	protected final boolean transpose;
@@ -71,7 +71,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 		return layers;
 	}
 
-	protected LayoutDimension computeLayoutDimension(List<List<SugiyamaNode<V>>> layers) {
+	protected DigraphLayoutDimension computeLayoutDimension(List<List<SugiyamaNode<V>>> layers) {
 		int maxX = 0;
 		for (List<SugiyamaNode<V>> layer : layers) {
 			SugiyamaNode<V> last = layer.get(layer.size()-1);
@@ -81,7 +81,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 		for (SugiyamaNode<V> node : layers.get(layers.size()-1)) {
 			maxY = Math.max(maxY, node.getPoint().y + node.getDimension().h);
 		}
-		return new LayoutDimension(maxX, maxY);
+		return new DigraphLayoutDimension(maxX, maxY);
 	}
 
 	private void computeNodePoints(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph, List<List<SugiyamaNode<V>>> layers) {
@@ -94,7 +94,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 			int levelHeight = 0;
 			levelY += verticalSpacing;
 			for (SugiyamaNode<V> node : layer) {
-				node.setPoint(new LayoutPoint((int)node.getPosition() - minPosition - node.getDimension().w / 2, levelY));
+				node.setPoint(new DigraphLayoutPoint((int)node.getPosition() - minPosition - node.getDimension().w / 2, levelY));
 				levelHeight = Math.max(levelHeight, node.getDimension().h);
 			}
 			levelY += levelHeight;
@@ -126,7 +126,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 	 * @param arc long arc
 	 * @param zero dimension used for dummy nodes
 	 */
-	private void insertSegment(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph, SugiyamaArc<V,E> arc, LayoutDimension zero) {
+	private void insertSegment(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph, SugiyamaArc<V,E> arc, DigraphLayoutDimension zero) {
 		assert arc.getTarget().getLayer() > arc.getSource().getLayer() + 1;
 
 		SugiyamaNode<V> source = arc.getSource();
@@ -150,7 +150,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 	/**
 	 * Split long arcs by inserting dummy nodes
 	 */
-	protected void insertDummyNodes(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph, LayoutDimensionProvider<V> dimensions) {
+	protected void insertDummyNodes(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph, DigraphLayoutDimensionProvider<V> dimensions) {
 		List<SugiyamaArc<V,E>> longArcs = new LinkedList<SugiyamaArc<V,E>>();
 		for (SugiyamaNode<V> source : graph.vertices()) {
 			for (SugiyamaNode<V> target : graph.targets(source)) {
@@ -159,7 +159,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 				}
 			}
 		}
-		LayoutDimension zero = dimensions.getDimension(null);
+		DigraphLayoutDimension zero = dimensions.getDimension(null);
 		for (SugiyamaArc<V,E> arc : longArcs) {
 			insertSegment(graph, arc, zero);
 			if (arc.getBackArc() != null) {
@@ -179,16 +179,16 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 			} else {
 				for (SugiyamaNode<V> target : graph.targets(source)) {
 					if (target.isDummy()) {
-						List<LayoutPoint> points = graph.get(source, target).getBendPoints();
+						List<DigraphLayoutPoint> points = graph.get(source, target).getBendPoints();
 						SugiyamaNode<V> current = target;
 						SugiyamaNode<V> previous = null;
 						do {
 							if (current.getUpper().getPosition() != current.getPosition() || current.getLower().getPosition() != current.getPosition()) {
 								if (points.isEmpty()) {
-									points = new LinkedList<LayoutPoint>();
+									points = new LinkedList<DigraphLayoutPoint>();
 								}
 								points.add(current.getPoint());
-								List<LayoutPoint> additionalBends = graph.get(current, current.getLower()).getBendPoints();
+								List<DigraphLayoutPoint> additionalBends = graph.get(current, current.getLower()).getBendPoints();
 								if (additionalBends != null) {
 									points.addAll(additionalBends);
 								}
@@ -248,11 +248,55 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 		}
 	}
 
-	protected void finalizeLayout(Digraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph) {
-		// do nothing
+	/**
+	 * add bend point to feedback arc (v,w) if (w,v) is also present.
+	 */
+	protected void finalizeLayout(Digraph<SugiyamaNode<V>, SugiyamaArc<V, E>> graph) {
+		int minHorizontalDistance = Math.min(transpose ? 12 : 16, horizontalSpacing);
+		int minVerticalDistance = 0; // vertical displacement currently not used
+		for (SugiyamaNode<V> source : graph.vertices()) {
+			for (SugiyamaNode<V> target : graph.targets(source)) {
+				SugiyamaArc<V, E> arc1 = graph.get(source, target);
+				if (arc1.isFeedback() && graph.contains(target, source) && arc1.getBendPoints().isEmpty()) {
+					SugiyamaArc<V, E> arc2 = graph.get(target, source);
+					if (arc2.getBendPoints().isEmpty()) {
+						boolean bend = false;
+						// horizontal displacement
+						int x1 = (arc1.getStartPoint().x + arc1.getEndPoint().x) / 2;
+						int x2 = (arc2.getStartPoint().x + arc2.getEndPoint().x) / 2;								
+						int horizontalDistance = Math.abs(x2 - x1);
+						if (horizontalDistance < minHorizontalDistance) {
+							int delta = minHorizontalDistance - horizontalDistance + 1;
+							x1 = arc1.getStartPoint().x <= arc2.getEndPoint().x ? x1 - delta/2 : x1 + delta/2;
+							x2 = arc1.getStartPoint().x <= arc2.getEndPoint().x ? x2 + delta/2 : x2 - delta/2;
+							bend = true;
+						}
+						// vertical displacement
+						int y1 = (arc1.getStartPoint().y + arc1.getEndPoint().y) / 2;
+						int y2 = (arc2.getStartPoint().y + arc2.getEndPoint().y) / 2;
+						int verticalDistance = Math.abs(y2 - y1);
+						if (verticalDistance < minVerticalDistance) {
+							int delta = minVerticalDistance - verticalDistance + 1;
+							y1 = arc1.getStartPoint().x <= arc1.getEndPoint().x ? y1 - delta/2 : y1 + delta/2;
+							y2 = arc2.getEndPoint().x <= arc2.getStartPoint().x ? y2 + delta/2 : y2 - delta/2;
+							bend = true;
+						}
+						if (bend) { // add bend points
+							List<DigraphLayoutPoint> points = null;
+							points = new LinkedList<DigraphLayoutPoint>();
+							points.add(new DigraphLayoutPoint(x1, y1));
+							arc1.setBendPoints(points);
+							points = new LinkedList<DigraphLayoutPoint>();
+							points.add(new DigraphLayoutPoint(x2, y2));
+							arc2.setBendPoints(points);
+						}
+					}
+				}
+			}
+		}
 	}
 
-	protected DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> createLayoutGraph(Digraph<V,E> graph, LayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback) {
+	protected DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> createLayoutGraph(Digraph<V,E> graph, DigraphLayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback) {
 		return new SugiyamaStep1<V,E>().createLayoutGraph(graph, dimensions, feedback, horizontalSpacing);
 	}
 
@@ -269,15 +313,15 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 	}
 
 	@Override
-	public Layout<V,E> layout(Digraph<V,E> digraph, LayoutDimensionProvider<V> dimensions) {
+	public DigraphLayout<V,E> build(Digraph<V,E> digraph, DigraphLayoutDimensionProvider<V> dimensions) {
 		FeedbackArcSet<V,E> feedback =
 			new SimpleFeedbackArcSetProvider().getFeedbackArcSet(digraph, EdgeWeights.UNIT_WEIGHTS, FeedbackArcSetPolicy.MIN_WEIGHT);
 		return layout(digraph, dimensions, feedback);
 	}
 
-	public Layout<V,E> layout(Digraph<V,E> digraph, LayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback) {
+	public DigraphLayout<V,E> layout(Digraph<V,E> digraph, DigraphLayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback) {
 		if (digraph.getVertexCount() == 0) {
-			return new Layout<V,E>(Digraphs.<LayoutNode<V>,LayoutArc<V,E>>emptyDigraph(), new LayoutDimension(0, 0));
+			return new DigraphLayout<V,E>(Digraphs.<DigraphLayoutNode<V>,DigraphLayoutArc<V,E>>emptyDigraph(), new DigraphLayoutDimension(0, 0));
 		}
 		DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> graph = createLayoutGraph(digraph, dimensions, feedback);
 		insertDummyNodes(graph, dimensions);
@@ -290,7 +334,7 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 		minimizeCrossings(graph, layers);
 		adjustNodePositions(graph, layers);
 		computeNodePoints(graph, layers);
-		LayoutDimension dimension = computeLayoutDimension(layers);
+		DigraphLayoutDimension dimension = computeLayoutDimension(layers);
 		routeArcs(graph, layers);
 		removeDummyNodes(graph);
 		fixEndPoints(graph);
@@ -303,13 +347,13 @@ public class SugiyamaBuilder<V, E> implements LayoutBuilder<V, E> {
 					SugiyamaArc<V, E> arc = graph.get(source, target);
 					arc.getStartPoint().transpose();
 					arc.getEndPoint().transpose();
-					for (LayoutPoint point : arc.getBendPoints()) {
+					for (DigraphLayoutPoint point : arc.getBendPoints()) {
 						point.transpose();
 					}
 				}
 			}
 			dimension.transpose();
 		}
-		return new Layout<V,E>(graph, dimension);
+		return new DigraphLayout<V,E>(graph, dimension);
 	}
 }

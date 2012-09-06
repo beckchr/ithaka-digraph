@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.odysseus.ithaka.digraph.Digraph;
-import de.odysseus.ithaka.digraph.layout.LayoutPoint;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutPoint;
 
 /**
  * Route arcs
@@ -128,8 +128,8 @@ public class SugiyamaStep4<V,E> {
 			for (SugiyamaArc<V,E> arc : arcs) {
 				SugiyamaNode<V> source = arc.getSource();
 				SugiyamaNode<V> target = arc.getTarget();
-				LayoutPoint sourceSlotPoint = source.getLowerSlotPoint(arc.getSourceSlot());	// segment start
-				LayoutPoint targetSlotPoint = target.getUpperSlotPoint(arc.getTargetSlot());	// segment end
+				DigraphLayoutPoint sourceSlotPoint = source.getLowerSlotPoint(arc.getSourceSlot());	// segment start
+				DigraphLayoutPoint targetSlotPoint = target.getUpperSlotPoint(arc.getTargetSlot());	// segment end
 				if (source != last) {													// first/last arc of source
 					if (last == null || last.getLayer() != source.getLayer()) {			// first/last arc on layer
 						layer = layers.get(source.getLayer());
@@ -141,14 +141,14 @@ public class SugiyamaStep4<V,E> {
 							SugiyamaNode<V> node = layer.get(index);
 							int borderPointX = node.getPoint().x + node.getDimension().w - 1;
 							int borderPointY = node.getPoint().y + node.getDimension().h - 1;
-							border.add(new LayoutPoint(borderPointX, borderPointY)); //, sourceSlotPoint, targetSlotPoint);
+							border.add(new DigraphLayoutPoint(borderPointX, borderPointY)); //, sourceSlotPoint, targetSlotPoint);
 						}
 					} else {
 						for (int index = last == null ? layer.size() - 1 : last.getIndex(); index > source.getIndex(); index--) {
 							SugiyamaNode<V> node = layer.get(index);
 							int borderPointX = node.getPoint().x;
 							int borderPointY = node.getPoint().y + node.getDimension().h - 1;
-							border.add(new LayoutPoint(borderPointX, borderPointY)); //, sourceSlotPoint, targetSlotPoint);
+							border.add(new DigraphLayoutPoint(borderPointX, borderPointY)); //, sourceSlotPoint, targetSlotPoint);
 						}
 					}
 				}
@@ -156,8 +156,8 @@ public class SugiyamaStep4<V,E> {
 				int bendY = border.getBendY(sourceSlotPoint, targetSlotPoint);
 				if (bendY > sourceSlotPoint.y) {
 //					System.out.println("bad: " + arc);
-					LayoutPoint bend = new LayoutPoint(sourceSlotPoint.x, bendY);
-					LinkedList<LayoutPoint> bends = new LinkedList<LayoutPoint>();
+					DigraphLayoutPoint bend = new DigraphLayoutPoint(sourceSlotPoint.x, bendY);
+					LinkedList<DigraphLayoutPoint> bends = new LinkedList<DigraphLayoutPoint>();
 					bends.add(bend);
 					arc.setBendPoints(bends);
 					border.add(bend);
@@ -169,15 +169,15 @@ public class SugiyamaStep4<V,E> {
 
 	private class Border {
 		int aura = 4, sign;
-		List<LayoutPoint> borderPoints = new ArrayList<LayoutPoint>();	// list of points with decreasing y values and decreasing slope (i.e. convex)
+		List<DigraphLayoutPoint> borderPoints = new ArrayList<DigraphLayoutPoint>();	// list of points with decreasing y values and decreasing slope (i.e. convex)
 
 		Border(boolean leftToRight) {
 			sign = leftToRight ? 1 : -1;
 		}
-		void add(LayoutPoint borderPoint) {
+		void add(DigraphLayoutPoint borderPoint) {
 			int index = borderPoints.size();
 			if (!borderPoints.isEmpty()) {
-				LayoutPoint last = borderPoints.get(index - 1);
+				DigraphLayoutPoint last = borderPoints.get(index - 1);
 				if (sign * borderPoint.x < sign * last.x) {
 					return;									// ignore (occurs when last was a bend)
 				}
@@ -186,8 +186,8 @@ public class SugiyamaStep4<V,E> {
 				borderPoints.remove(index);					// remove trailing points with y values too small
 			}
 			while (--index > 0) {
-				LayoutPoint current = borderPoints.get(index);
-				LayoutPoint previous = borderPoints.get(index - 1);
+				DigraphLayoutPoint current = borderPoints.get(index);
+				DigraphLayoutPoint previous = borderPoints.get(index - 1);
 				if (sign * Line2D.relativeCCW(previous.x, previous.y, current.x, current.y, borderPoint.x, borderPoint.y) <= 0) {
 					borderPoints.remove(index);				// remove trailing points with slope values too small
 				} else {
@@ -196,10 +196,10 @@ public class SugiyamaStep4<V,E> {
 			}
 			borderPoints.add(borderPoint);
 		}
-		int getBendY(LayoutPoint sourceSlotPoint, LayoutPoint targetSlotPoint) {
+		int getBendY(DigraphLayoutPoint sourceSlotPoint, DigraphLayoutPoint targetSlotPoint) {
 			int bendY = sourceSlotPoint.y;
 			if (sign * sourceSlotPoint.x > sign * targetSlotPoint.x) {
-				for (LayoutPoint borderPoint : borderPoints) {
+				for (DigraphLayoutPoint borderPoint : borderPoints) {
 					if (borderPoint.y > bendY &&
 							sign * borderPoint.x > sign * targetSlotPoint.x &&
 							sign * Line2D.relativeCCW(sourceSlotPoint.x, sourceSlotPoint.y, targetSlotPoint.x, targetSlotPoint.y, borderPoint.x + sign * aura, borderPoint.y + aura) >= 0) {
@@ -212,7 +212,7 @@ public class SugiyamaStep4<V,E> {
 		@Override
 		public String toString() {
 			String result = "[ ";
-			for (LayoutPoint borderPoint : borderPoints) {
+			for (DigraphLayoutPoint borderPoint : borderPoints) {
 				result += borderPoint + " ";
 			}
 			return result + "]";

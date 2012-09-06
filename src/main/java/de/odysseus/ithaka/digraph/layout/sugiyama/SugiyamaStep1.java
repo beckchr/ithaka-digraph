@@ -24,7 +24,7 @@ import de.odysseus.ithaka.digraph.Digraphs;
 import de.odysseus.ithaka.digraph.DoubledDigraph;
 import de.odysseus.ithaka.digraph.DoubledDigraphAdapter;
 import de.odysseus.ithaka.digraph.MapDigraph;
-import de.odysseus.ithaka.digraph.layout.LayoutDimensionProvider;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimensionProvider;
 
 /**
  * Create layout graph and assign layer numbers
@@ -37,7 +37,7 @@ public class SugiyamaStep1<V,E> {
 		}
 	};
 
-	public DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> createLayoutGraph(Digraph<V,E> graph, LayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback, int horizontalSpacing) {
+	public DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> createLayoutGraph(Digraph<V,E> graph, DigraphLayoutDimensionProvider<V> dimensions, Digraph<V,?> feedback, int horizontalSpacing) {
 		DoubledDigraph<SugiyamaNode<V>,SugiyamaArc<V,E>> result =
 			DoubledDigraphAdapter.getAdapterFactory(factory).create();
 

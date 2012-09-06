@@ -23,17 +23,17 @@ import org.junit.Test;
 import de.odysseus.ithaka.digraph.Digraph;
 import de.odysseus.ithaka.digraph.SimpleDigraph;
 import de.odysseus.ithaka.digraph.SimpleDigraphAdapter;
-import de.odysseus.ithaka.digraph.layout.LayoutDimension;
-import de.odysseus.ithaka.digraph.layout.LayoutDimensionProvider;
-import de.odysseus.ithaka.digraph.layout.LayoutArc;
-import de.odysseus.ithaka.digraph.layout.LayoutNode;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimension;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimensionProvider;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutArc;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutNode;
 import de.odysseus.ithaka.digraph.layout.sugiyama.SugiyamaBuilder;
 
 public class SugiyamaBuilderTest extends TestCase {
-	private LayoutDimensionProvider<Integer> dim = new LayoutDimensionProvider<Integer>() {
+	private DigraphLayoutDimensionProvider<Integer> dim = new DigraphLayoutDimensionProvider<Integer>() {
 		@Override
-		public LayoutDimension getDimension(Integer node) {
-			return new LayoutDimension(String.valueOf(node).length(), 1);
+		public DigraphLayoutDimension getDimension(Integer node) {
+			return new DigraphLayoutDimension(String.valueOf(node).length(), 1);
 		}
 	};
 
@@ -44,15 +44,15 @@ public class SugiyamaBuilderTest extends TestCase {
 		dag.add(2, 3);
 
 		SugiyamaBuilder<Integer,Boolean> builder = new SugiyamaBuilder<Integer, Boolean>(1, 1);
-		Digraph<? extends LayoutNode<Integer>,? extends LayoutArc<Integer,Boolean>> sugiyama =
-				builder.layout(dag, dim).getLayoutGraph();
+		Digraph<? extends DigraphLayoutNode<Integer>,? extends DigraphLayoutArc<Integer,Boolean>> sugiyama =
+				builder.build(dag, dim).getLayoutGraph();
 		Assert.assertEquals(dag.getVertexCount(), sugiyama.getVertexCount());
 		Assert.assertEquals(dag.getEdgeCount(), sugiyama.getEdgeCount());
-		for (LayoutNode<Integer> source : sugiyama.vertices()) {
+		for (DigraphLayoutNode<Integer> source : sugiyama.vertices()) {
 			Assert.assertTrue(dag.contains(source.getVertex()));
-			for (LayoutNode<Integer> target : sugiyama.targets(source)) {
+			for (DigraphLayoutNode<Integer> target : sugiyama.targets(source)) {
 				Assert.assertTrue(dag.contains(source.getVertex(), target.getVertex()));
-				LayoutArc<Integer, Boolean> arc = sugiyama.get(source, target);
+				DigraphLayoutArc<Integer, Boolean> arc = sugiyama.get(source, target);
 				Assert.assertEquals(dag.get(source.getVertex(), target.getVertex()), arc.getEdge());
 				Assert.assertEquals(source, arc.getSource());
 				Assert.assertEquals(target, arc.getTarget());

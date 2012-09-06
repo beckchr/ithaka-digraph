@@ -17,11 +17,11 @@ package de.odysseus.ithaka.digraph.layout.sugiyama;
 
 import java.util.Comparator;
 
-import de.odysseus.ithaka.digraph.layout.LayoutDimension;
-import de.odysseus.ithaka.digraph.layout.LayoutNode;
-import de.odysseus.ithaka.digraph.layout.LayoutPoint;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimension;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutNode;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutPoint;
 
-public class SugiyamaNode<V> implements LayoutNode<V> {
+public class SugiyamaNode<V> implements DigraphLayoutNode<V> {
 	public static final Comparator<SugiyamaNode<?>> CMP_ID = new Comparator<SugiyamaNode<?>>() {
 		@Override
 		public int compare(SugiyamaNode<?> o1, SugiyamaNode<?> o2) {
@@ -44,8 +44,8 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 	private int index;
 	private int temporary;
 	private V vertex;
-	private LayoutPoint point;
-	private LayoutDimension dimension;
+	private DigraphLayoutPoint point;
+	private DigraphLayoutDimension dimension;
 	private int lowerSlots;
 	private int upperSlots;
 	private int lowerCenterSlot = -1;
@@ -59,7 +59,7 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 	 * Dummy nodes have <code>null</code> data.
 	 * @param dummyDimension
 	 */
-	public SugiyamaNode(LayoutDimension dummyDimension) {
+	public SugiyamaNode(DigraphLayoutDimension dummyDimension) {
 		this(null, dummyDimension, 0);
 	}
 
@@ -68,7 +68,7 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 	 * @param vertex data
 	 * @param dimension
 	 */
-	public SugiyamaNode(V vertex, LayoutDimension dimension, int maxSlotDistance) {
+	public SugiyamaNode(V vertex, DigraphLayoutDimension dimension, int maxSlotDistance) {
 		this.id = NEXT_ID++;
 		this.vertex = vertex;
 		this.dimension = dimension;
@@ -79,16 +79,16 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 		return lowerSlots++;
 	}
 
-	public LayoutPoint getLowerSlotPoint(int slot) {
-		return new LayoutPoint(point.x + getOffset(slot, lowerSlots, lowerCenterSlot), point.y + dimension.h);
+	public DigraphLayoutPoint getLowerSlotPoint(int slot) {
+		return new DigraphLayoutPoint(point.x + getOffset(slot, lowerSlots, lowerCenterSlot), point.y + dimension.h);
 	}
 
 	public int nextUpperSlot() {
 		return upperSlots++;
 	}
 
-	public LayoutPoint getUpperSlotPoint(int slot) {
-		return new LayoutPoint(point.x + getOffset(slot, upperSlots, upperCenterSlot), point.y);
+	public DigraphLayoutPoint getUpperSlotPoint(int slot) {
+		return new DigraphLayoutPoint(point.x + getOffset(slot, upperSlots, upperCenterSlot), point.y);
 	}
 
 	private int getOffset(int slot, int slots, int center) {
@@ -115,7 +115,7 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 	}
 
 	@Override
-	public LayoutDimension getDimension() {
+	public DigraphLayoutDimension getDimension() {
 		return dimension;
 	}
 
@@ -145,11 +145,11 @@ public class SugiyamaNode<V> implements LayoutNode<V> {
 	}
 
 	@Override
-	public LayoutPoint getPoint() {
+	public DigraphLayoutPoint getPoint() {
 		return point;
 	}
 
-	public void setPoint(LayoutPoint point) {
+	public void setPoint(DigraphLayoutPoint point) {
 		this.point = point;
 	}
 

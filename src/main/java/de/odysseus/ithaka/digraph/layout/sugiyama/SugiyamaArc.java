@@ -18,20 +18,20 @@ package de.odysseus.ithaka.digraph.layout.sugiyama;
 import java.util.Collections;
 import java.util.List;
 
-import de.odysseus.ithaka.digraph.layout.LayoutArc;
-import de.odysseus.ithaka.digraph.layout.LayoutPoint;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutArc;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutPoint;
 
-public class SugiyamaArc<V,E> implements LayoutArc<V,E> {
+public class SugiyamaArc<V,E> implements DigraphLayoutArc<V,E> {
 	private E edge;
-	private List<LayoutPoint> points;
+	private List<DigraphLayoutPoint> points;
 	private int sourceSlot;
 	private int targetSlot;
 	private SugiyamaNode<V> source;
 	private SugiyamaNode<V> target;
 	private SugiyamaArc<V,E> backArc;
 	private boolean feedback;
-	private LayoutPoint startPoint;
-	private LayoutPoint endPoint;
+	private DigraphLayoutPoint startPoint;
+	private DigraphLayoutPoint endPoint;
 
 	public SugiyamaArc(SugiyamaNode<V> source, SugiyamaNode<V> target, boolean feedback, E edge) {
 		this.source = source;
@@ -78,11 +78,11 @@ public class SugiyamaArc<V,E> implements LayoutArc<V,E> {
 	}
 
 	@Override
-	public List<LayoutPoint> getBendPoints() {
-		return points == null ? Collections.<LayoutPoint>emptyList() : points;
+	public List<DigraphLayoutPoint> getBendPoints() {
+		return points == null ? Collections.<DigraphLayoutPoint>emptyList() : points;
 	}
 
-	public void setBendPoints(List<LayoutPoint> points) {
+	public void setBendPoints(List<DigraphLayoutPoint> points) {
 		this.points = points;
 	}
 
@@ -100,20 +100,20 @@ public class SugiyamaArc<V,E> implements LayoutArc<V,E> {
 	}
 
 	@Override
-	public LayoutPoint getStartPoint() {
+	public DigraphLayoutPoint getStartPoint() {
 		return startPoint;
 	}
 
 	@Override
-	public LayoutPoint getEndPoint() {
+	public DigraphLayoutPoint getEndPoint() {
 		return endPoint;
 	}
 
-	public void setStartPoint(LayoutPoint startPoint) {
+	public void setStartPoint(DigraphLayoutPoint startPoint) {
 		this.startPoint = startPoint;
 	}
 
-	public void setEndPoint(LayoutPoint endPoint) {
+	public void setEndPoint(DigraphLayoutPoint endPoint) {
 		this.endPoint = endPoint;
 	}
 

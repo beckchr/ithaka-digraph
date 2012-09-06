@@ -30,8 +30,8 @@ import de.odysseus.ithaka.digraph.Digraph;
 import de.odysseus.ithaka.digraph.Digraphs;
 import de.odysseus.ithaka.digraph.SimpleDigraph;
 import de.odysseus.ithaka.digraph.SimpleDigraphAdapter;
-import de.odysseus.ithaka.digraph.layout.LayoutDimension;
-import de.odysseus.ithaka.digraph.layout.LayoutDimensionProvider;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimension;
+import de.odysseus.ithaka.digraph.layout.DigraphLayoutDimensionProvider;
 import de.odysseus.ithaka.digraph.layout.sugiyama.SugiyamaArc;
 import de.odysseus.ithaka.digraph.layout.sugiyama.SugiyamaNode;
 import de.odysseus.ithaka.digraph.layout.sugiyama.SugiyamaStep1;
@@ -39,10 +39,10 @@ import de.odysseus.ithaka.digraph.layout.sugiyama.SugiyamaStep1;
 public class SugiyamaStep1Test {
 	private Digraph<Integer,Boolean> empty = Digraphs.<Integer,Boolean>emptyDigraph();
 
-	private LayoutDimensionProvider<Integer> dim = new LayoutDimensionProvider<Integer>() {
+	private DigraphLayoutDimensionProvider<Integer> dim = new DigraphLayoutDimensionProvider<Integer>() {
 		@Override
-		public LayoutDimension getDimension(Integer node) {
-			return new LayoutDimension(String.valueOf(node).length(), 1);
+		public DigraphLayoutDimension getDimension(Integer node) {
+			return new DigraphLayoutDimension(String.valueOf(node).length(), 1);
 		}
 	};
 
