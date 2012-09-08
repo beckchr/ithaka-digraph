@@ -131,15 +131,15 @@ The `Digraphs` class provides static utility methods ala `Collections`. To name 
 	digraph.add(1, 3);
 	digraph.add(2, 3);
 
-	LayoutDimensionProvider<Integer> dimensionProvider = new LayoutDimensionProvider<Integer>() {
+	DigraphLayoutDimensionProvider<Integer> dimensionProvider = new DigraphLayoutDimensionProvider<Integer>() {
 		@Override
-		public LayoutDimension getDimension(Integer node) {
-			return new LayoutDimension(String.valueOf(node).length(), 1);
+		public DigraphLayoutDimension getDimension(Integer node) {
+			return new DigraphLayoutDimension(String.valueOf(node).length(), 1);
 		}
 	};
-	LayoutBuilder<Integer,Boolean> builder = new SugiyamaBuilder<Integer, Boolean>(1, 1);
-	Layout<Integer,Boolean> layout = layouter.layout(digraph, dimensionProvider);
-	for (LayoutNode<Integer> vertex : layout.getLayoutGraph().vertices()) {
+	DigraphLayoutBuilder<Integer,Boolean> builder = new SugiyamaBuilder<Integer,Boolean>(1, 1);
+	DigraphLayout<Integer,Boolean> layout = builder.build(digraph, dimensionProvider);
+	for (DigraphLayoutNode<Integer> vertex : layout.getLayoutGraph().vertices()) {
 		System.out.println(node.getVertex() + " --> " + vertex.getPoint());
 	}
 
@@ -165,10 +165,10 @@ as well as dependency
 	<dependency>
 		<groupId>de.odysseus.ithaka</groupId>
 		<artifactId>ithaka-digraph</artifactId>
-		<version>0.9.5</version>
+		<version>1.0</version>
 	</dependency>
 
-or manually grab latest JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/0.9.5). 
+or manually grab latest JARs [here](http://beckchr.github.com/ithaka-maven/mvnrepo/de/odysseus/ithaka/ithaka-digraph/1.0). 
 
 ## License
 
